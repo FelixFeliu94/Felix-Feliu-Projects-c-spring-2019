@@ -1,0 +1,53 @@
+include <iostream>
+using namespace std;
+int main()
+{
+    float *v;
+    float *h;
+    float a;
+
+    double mass=0.0, thrust, time, dt;
+    double g = 32.2;
+    double K = 0.008;
+
+    cout << "enter time";
+    cin >> time;
+    cout << "enter dt";
+    cin >> dt;
+
+    a = (time/dt);
+    v = new float[a];
+    h = new float[a];
+
+    v[0] = 0;
+    h[0] = 0;
+    float tt = 0;
+
+    // for loop to calculate velocity and time
+    for(int i = 0; i <= (time/dt) ; i++)
+    {
+        tt = dt + tt;
+
+        if( tt <= 60)
+        {
+            mass = (3000-(40*tt)/g);
+            thrust = 7000;
+        }
+        if ( tt > 60)
+        {
+            mass = 3000/g;
+            thrust = 0;
+        }
+
+        // these are the formulas for velocity and height position our prof gave us
+        v[i+1] = v[i] - (K/mass)*v[i]*v[i-1] * dt + (thrust/mass - g)*dt;
+        h[i+1] = v[i+1] * dt + h[i];
+    }
+
+    // for loop to output
+    for(int i = 0; i <= (time/dt); i++)
+    {
+        cout << i << " - " << "Velocity:" << v[i+1] << " Position:" << h[i+1] <<endl;
+    }
+    return 0;
+}
